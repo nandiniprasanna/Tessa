@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ssd-data-cellranger-{{BUILDID}}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{PVCSIZE}}Gi
+  storageClassName: ssd-storageclass
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{expidlower}}-{{idlower}}-cellranger-{{BUILDID}}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{expidlower}}-{{idlower}}-cellranger-{{BUILDID}}
+    spec:
+      initContainers:
+      - name: cellranger-copydata
+        image: asia.gcr.io/ts-uat/seuratinitubuntu:v2
+        workingDir: /mounttest
+        command: ["/bin/bash","-c","rm -rf /mounttest/gitrepo && git clone https://github.com/Kavana24/tessa-yaml.git /mounttest/gitrepo && bash /mounttest/gitrepo/Cellranger_Init_Failure.sh {{BUILDID}} {{JENKINSJOBNAME}} {{ID}} {{EXPID}} {{CELLRANGERGCSBUCKET}} {{REFERENCEDATABUCKET}}"]
+        volumeMounts:
+        - name: ssd-persistent-storage
+          mountPath: /mounttest
+        securityContext:
+          privileged: true
+      - name: cellranger-checkexistingfile
+        image: asia.gcr.io/ts-uat/seuratinitubuntu:v1
+        workingDir: /mounttest
+        command: ["/bin/bash","-c"," rm -rf /mounttest/{{ID}}_{{BUILDID}}"]
+        volumeMounts:
+        - name: ssd-persistent-storage
+          mountPath: /mounttest
+        securityContext:
+          privileged: true
+      containers:
+        - name: cellranger-cellranger
+          image: asia.gcr.io/ts-uat/cellgsutil:v7
+          workingDir: /mounttest
+          command: ["/bin/bash"]
+          args: ["-c", "bash /mounttest/gitrepo/Cellranger_success_failure.sh {{BUILDID}} {{JENKINSJOBNAME}} {{ID}} {{TRANSCRIPTOME}} {{SAMPLE}} {{FASTQS}} {{EXPID}}"]
+          volumeMounts:
+          - name: ssd-persistent-storage
+            mountPath: /mounttest
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - SYS_ADMIN
+          env:
+          - name: PROCESSORS
+            valueFrom:
+              resourceFieldRef:
+                resource: limits.cpu
+          resources:
+            requests:
+              memory: 8Gi
+              cpu: 4
+      restartPolicy: Never
+      volumes:
+        - name: ssd-persistent-storage
+          persistentVolumeClaim:
+             claimName: ssd-data-cellranger-{{BUILDID}}
