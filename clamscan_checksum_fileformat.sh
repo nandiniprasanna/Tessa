@@ -30,7 +30,7 @@ fi
 elif [ 0 -lt $var ]
 then
 echo "Files are in .fastq.gz format......Copying $SEARCH_FOLDER to GCS bucket."
-#cp
+cp $SEARCH_FOLDER gs://testinggenomic/Cellranger_Input
 echo "This completes scanning the input data with Antivirus,Verifying checksums and Renaming the files from fq.gz to fastq.gz."
 fi
 }
