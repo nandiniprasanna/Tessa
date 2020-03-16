@@ -41,7 +41,7 @@ spec:
           privileged: true
       containers:
         - name: cellranger-cellranger
-          image: asia.gcr.io/ts-uat/cellgsutil:v7
+          image: asia.gcr.io/ts-uat/cellrangerimage:v1
           workingDir: /mounttest
           command: ["/bin/bash"]
           args: ["-c", "bash /mounttest/gitrepo/Cellranger_success_failure.sh {{BUILDID}} {{JENKINSJOBNAME}} {{ID}} {{TRANSCRIPTOME}} {{SAMPLE}} {{FASTQS}} {{EXPID}}"]
