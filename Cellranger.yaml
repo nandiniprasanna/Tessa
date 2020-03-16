@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: cellranger-copydata
-        image: asia.gcr.io/ts-uat/seuratinitubuntu:v2
+        image: asia.gcr.io/ts-uat/initcontainerimg:v2
         workingDir: /mounttest
         command: ["/bin/bash","-c","rm -rf /mounttest/gitrepo && git clone https://github.com/Kavana24/tessa-yaml.git /mounttest/gitrepo && bash /mounttest/gitrepo/Cellranger_Init_Failure.sh {{BUILDID}} {{JENKINSJOBNAME}} {{ID}} {{EXPID}} {{CELLRANGERGCSBUCKET}} {{REFERENCEDATABUCKET}}"]
         volumeMounts:
@@ -31,7 +31,7 @@ spec:
         securityContext:
           privileged: true
       - name: cellranger-checkexistingfile
-        image: asia.gcr.io/ts-uat/seuratinitubuntu:v1
+        image: asia.gcr.io/ts-uat/initcontainerimg:v2
         workingDir: /mounttest
         command: ["/bin/bash","-c"," rm -rf /mounttest/{{ID}}_{{BUILDID}}"]
         volumeMounts:
