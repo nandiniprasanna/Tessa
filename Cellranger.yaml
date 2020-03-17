@@ -24,7 +24,13 @@ spec:
       - name: cellranger-copydata
         image: asia.gcr.io/ts-uat/initcontainerimg:v2
         workingDir: /mounttest
-        command: ["/bin/bash","-c","rm -rf /mounttest/gitrepo && git clone https://github.com/Kavana24/tessa-yaml.git /mounttest/gitrepo && bash /mounttest/gitrepo/Cellranger_Init_Failure.sh {{BUILDID}} {{JENKINSJOBNAME}} {{ID}} {{EXPID}} {{CELLRANGERGCSBUCKET}} {{REFERENCEDATABUCKET}}"]
+        env:
+        - name: GIT_URL
+          valueFrom:
+            secretKeyRef:
+              name: git-url-cellranger
+              key: git-url-cellranger
+        command: ["/bin/bash","-c","rm -rf /mounttest/gitrepo && git clone $GIT_URL /mounttest/gitrepo && bash /mounttest/gitrepo/Cellranger_Init_Failure.sh {{BUILDID}} {{JENKINSJOBNAME}} {{ID}} {{EXPID}} {{CELLRANGERGCSBUCKET}} {{REFERENCEDATABUCKET}}"]
         volumeMounts:
         - name: ssd-persistent-storage
           mountPath: /mounttest
