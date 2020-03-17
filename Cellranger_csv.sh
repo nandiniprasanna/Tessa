@@ -49,7 +49,7 @@ size1=`gsutil du -s $gcsbucket`
 echo $size1
 #calculating the size for the k8-pvc
 sizespilt="$(cut -d ' ' -f1 <<<"$size1")"
-sizemul=`expr $sizespilt \* 4`
+sizemul=`expr $sizespilt \* 10`
 PVCSIZE=`expr $sizemul / 1073741824`
 echo $PVCSIZE
 #Checking for id in expid sql table
