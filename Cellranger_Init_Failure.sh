@@ -19,5 +19,5 @@ if gsutil cp -r $CELLRANGERGCSBUCKET /mounttest/ && gsutil cp -r $REFERENCEDATAB
 then
 echo "Init container successfull"
 else
-java -jar /jenkins-cli.jar -s http://10.60.2.24:8080/ -auth k8user:ASqwDFer!@34 build Cellranger_init_failure_notification -p jenkinsjobID=$jenkinsjobid_buildid -p k8jobID=$k8jobname -p id=$id -p Experiment_ID=$EXPID -p Podname=$podname
+java -jar /jenkins-cli.jar -s http://10.60.2.24:8080/ -auth k8user:ASqwDFer^@34 build Cellranger_init_failure_notification -p jenkinsjobID=$jenkinsjobid_buildid -p k8jobID=$k8jobname -p id=$id -p Experiment_ID=$EXPID -p Podname=$podname
 fi
