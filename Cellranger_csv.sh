@@ -53,7 +53,7 @@ sizemul=`expr $sizespilt \* 10`
 PVCSIZE=`expr $sizemul / 1073741824`
 echo $PVCSIZE
 #Checking for id in expid sql table
-count=`mysql -hseurat-test -P3306 -ujenkinsuser -pjenkins123 -D tessa_output -B -N -e "Select count(Sample_ID) from $expid where Sample_ID='$id'";`
+count=`mysql -hseurat-test -P3306 -ujenkinsuser -ppoLKiuJH764 -D tessa_output -B -N -e "Select count(Sample_ID) from $expid where Sample_ID='$id'";`
 if [ $count -eq 1 ]
 then
 java -jar /jenkins-cli.jar -s http://10.60.2.24:8080/ -auth k8user:ASqwDFer^@34 build Cellranger-pipeline -p size=$PVCSIZE -p Experiment_ID=$expid -p id=$id -p transcriptome=$transcriptome -p sample=$sample1 -p fastqs=$fastqs -p gcsbucket=$gcsbucket -p referencedatabucket=$referencedatabucket
