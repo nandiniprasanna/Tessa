@@ -25,9 +25,7 @@ k8jobname="$expidlower"-"$idlower"-cellranger-"$BUILDID";
 #i=1;
 #if [ $i -eq 2 ]
 
-#if cellranger count --id=$id --transcriptome=$TRANSCRIPTOME --sample=$SAMPLE --fastqs=$FASTQS && ls && gsutil cp -r $id gs://testinggenomic/Cellranger_output ;
-### Edited for public data to remove sample requirement
-cellranger count --id=$id --transcriptome=$TRANSCRIPTOME --fastqs=$FASTQS && ls && gsutil cp -r $id gs://testinggenomic/Cellranger_output ;
+if cellranger count --id=$id --transcriptome=$TRANSCRIPTOME --sample=$SAMPLE --fastqs=$FASTQS && ls && gsutil cp -r $id gs://testinggenomic/Cellranger_output ;
 #if cellranger testrun --id=tiny
 then
 echo "Success"
