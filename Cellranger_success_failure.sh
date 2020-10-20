@@ -21,9 +21,6 @@ var2=`echo "$ID" | awk '{print tolower($0)}'`;
 idlower=`echo "$var2" | tr '_' '-'`;
 k8jobname="$expidlower"-"$idlower"-cellranger-"$BUILDID";
 
-ls $TRANSCRIPTOME;
-ls /mounttest/reference;
-
 #i=1;
 #if [ $i -eq 2 ]
 #if ([cellranger count --id=$id --transcriptome=$TRANSCRIPTOME --sample=$SAMPLE --fastqs=$FASTQS] && [ls] && [gsutil cp -r $id gs://testinggenomic/Cellranger_output]);
@@ -42,3 +39,6 @@ mysql -h10.60.2.8 -P3306 -ujenkinsuser -ppoLKiuJH764 -D tessa_output -e "INSERT 
 VALUES ('$EXPID','$ID','$id','$jenkinsjobid_buildid','$k8jobname','$podname','NA','Failure','NA')"
 java -jar /jenkins-cli.jar -s http://10.60.2.24:8080/ -auth k8user:ASqwDFer^@34 build Cellranger-failure-notification -p jenkinsjobID=$JENKINSJOBID-$BUILDID -p k8jobID=$k8jobname -p id=$id -p Experiment_ID=$EXPID -p Podname=$podname -p cellrangerparentbuildID=$BUILDID
 fi
+
+ls $TRANSCRIPTOME;
+ls /mounttest/reference;
