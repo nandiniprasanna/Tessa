@@ -27,7 +27,7 @@ k8jobname="$expidlower"-"$idlower"-cellranger-"$BUILDID";
 #if cellranger count --id=$id --transcriptome=$TRANSCRIPTOME --sample=$SAMPLE --fastqs=$FASTQS && ls && gsutil cp -r $id gs://testinggenomic/Cellranger_output ;
 echo "cellranger count --id=$id --transcriptome=$TRANSCRIPTOME --sample=$SAMPLE --fastqs=$FASTQS && ls && gsutil cp -r $id gs://testinggenomic/Cellranger_output";
 ls $TRANSCRIPTOME;
-ls /mounttest/reference;
+ls /mounttest/reference/refdata-cellranger-GRCh38-3.0.0;
 if cellranger testrun --id=tiny ;
 then
 echo "Success"
